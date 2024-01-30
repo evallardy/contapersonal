@@ -1,0 +1,57 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %} 
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %} 
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="d-flex align-items-center justify-content-center">
+  <div class="mt-2 mapa" style="padding: 10px; width: 450px">
+    <h2>Crear Cobros</h2>
+    <form method="post" action="{% url 'crear_cobros' %}">
+      {% csrf_token %}
+      {{ form.errors }}
+      <div class="row">
+        <div class="col-5">
+          {{ form.desde_anio|as_crispy_field }}
+          {{ form.desde_anio.errors }}
+        </div>
+        <div class="col-5">
+          {{ form.desde_quincena|as_crispy_field }}
+          {{ form.desde_quincena.errors }}
+        </div>
+        <div class="col-5">
+          {{ form.hasta_anio|as_crispy_field }}
+          {{ form.hasta_anio.errors }}
+        </div>
+        <div class="col-5">
+          {{ form.hasta_quincena|as_crispy_field }}
+          {{ form.hasta_quincena.errors }}
+        </div>
+        <div class="col-5">
+          {{ form.tipo_cobro|as_crispy_field }}
+          {{ form.tipo_cobro.errors }}
+        </div>
+        <div class="col-5">
+          {{ form.importe_cobro|as_crispy_field }}
+          {{ form.importe_cobro.errors }}
+        </div>
+        <div class="col-12">
+          {{ form.comentario|as_crispy_field }}
+          {{ form.comentario.errors }}
+        </div>
+      </div>
+      <button class="btn btn-success" type="submit">Crear Cobros</button>
+    </form>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+  {% block inicio %}
+      $('.boton_7').addClass('active');
+  {% endblock %}
+</script>

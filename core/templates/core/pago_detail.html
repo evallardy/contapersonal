@@ -1,0 +1,96 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="d-flex align-items-center justify-content-center">
+    <div class="mt-2 mapa" style="padding: 10px; width: 450px">
+        <h2>Detalles de Pago</h2>
+        <div class="row col-12">
+            Deudor
+            <div class="col-12 form-control">
+                {{pago.deudor.nombre}}
+            </div>
+            <div class="col-6 mt-2">
+                <div class="col-12">
+                    Importe a pagar
+                </div>
+                <div class="col-12 form-control text-right">
+                    {{pago.importe_pagar}}
+                </div>
+            </div>
+            <div class="col-6 mt-2">
+                <div class="col-12">
+                    Importe pagado
+                </div>
+                <div class="col-12 form-control text-right">
+                    {{pago.importe_pagado}}
+                </div>
+            </div>
+            <div class="col-6 mt-2">
+                <div class="col-12">
+                    Año a pagar
+                </div>
+                <div class="col-12 form-control text-center">
+                    {{pago.get_anio_pagar_display}}
+                </div>
+            </div>
+            <div class="col-6 mt-2">
+                <div class="col-12">
+                    Quincena a pagar
+                </div>
+                <div class="col-12 form-control text-center">
+                    {{pago.get_qna_pagar_display}}
+                </div>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="col-12">
+                    Comentario
+                </div>
+                <div class="col-12 form-control">
+                    {{pago.comentario|default_if_none:""}}
+                </div>
+            </div>
+            <div class="col-8 mt-2">
+                <div class="col-12">
+                    Fecha de pago
+                </div>
+                <div class="col-12 form-control text-center">
+                    {{pago.fecha_pagado|default_if_none:""}}
+                </div>
+            </div>
+            <div class="col-4 mt-2">
+                <div class="col-12">
+                    Estatus
+                </div>
+                <div class="col-12 form-control text-center">
+                    {{pago.get_estatus_display}}
+                </div>
+            </div>
+        </div>
+        <div class="col-12 row mt-2">
+            <div class="col-3 text-center">
+                <a class="btn btn-info" href="{% url 'pago-update' pk=pago.pk %}">Editar</a>
+            </div>
+            <div class="col-3 text-center">
+                <a class="btn btn-danger" href="{% url 'pago-delete' pk=pago.pk %}">Eliminar</a>
+            </div>
+            <div class="col-6 text-center">
+                <a class="btn btn-info" href="{% url 'pago-list' %}">Volver a la lista</a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+    {% block inicio %}
+        $('.boton_3').addClass('active');
+    {% endblock %}
+</script>
+  

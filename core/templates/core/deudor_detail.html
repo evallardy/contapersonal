@@ -1,0 +1,96 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="d-flex align-items-center justify-content-center">
+  <div class="mt-2 mapa" style="padding: 10px; width: 450px">
+    <h2>Detalles de {{ deudor.nombre }}</h2>
+    <div class="row col-12">
+      Nombre
+      <div class="col-12 form-control">
+        {{deudor.nombre}}
+      </div>
+      <div class="col-6 mt-2">
+        <div class="col-12">
+          Corte
+        </div>
+        <div class="col-12 form-control text-center">
+          {{deudor.corte}}
+        </div>
+      </div>
+      <div class="col-6 mt-2">
+        <div class="col-12">
+          Tipo de pago
+        </div>
+        <div class="col-12 form-control text-center">
+          {{deudor.get_tipo_pago_display}}
+        </div>
+      </div>
+      <div class="col-6 mt-2">
+        <div class="col-12">
+          Año empieza
+        </div>
+        <div class="col-12 form-control text-center">
+          {{deudor.get_anio_empieza_display}}
+        </div>
+      </div>
+      <div class="col-6 mt-2">
+        <div class="col-12">
+          Quincena empieza
+        </div>
+        <div class="col-12 form-control text-center">
+          {{deudor.get_qna_empieza_display}}
+        </div>
+      </div>
+      <div class="col-6 mt-2">
+        <div class="col-12">
+          Año termina
+        </div>
+        <div class="col-12 form-control text-center">
+          {{deudor.get_anio_termina_display}}
+        </div>
+      </div>
+      <div class="col-6 mt-2">
+        <div class="col-12">
+          Quincena termina
+        </div>
+        <div class="col-12 form-control text-center">
+          {{deudor.get_qna_termina_display}}
+        </div>
+      </div>
+      <div class="col-6 mt-2">
+        <div class="col-12">
+          Estatus
+        </div>
+        <div class="col-12 form-control text-center">
+          {{deudor.get_estatus_display}}
+        </div>
+      </div>
+    </div>
+    <div class="row col-12 mt-2">
+      <div class="col-3 text-center">
+        <a class="btn btn-info" href="{% url 'deudor-update' pk=deudor.pk %}">Editar</a>
+      </div>
+      <div class="col-3 text-center">
+        <a class="btn btn-danger" href="{% url 'deudor-delete' pk=deudor.pk %}">Eliminar</a>
+      </div>
+      <div class="col-6 text-center">
+        <a class="btn btn-info" href="{% url 'deudor-list' %}">Volver a la lista</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+  {% block inicio %}
+      $('.boton_2').addClass('active');
+  {% endblock %}
+</script>
+  

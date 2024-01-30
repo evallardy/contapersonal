@@ -1,0 +1,132 @@
+<thead>
+    <tr>
+        <th class="flex-fill text-center celda1" colspan="26" style="font-size: 14px;">{{anio}}</th>
+    </tr>
+    <tr>
+        {% for encabezado in deudores_matriz_encabezado.0 %}
+            {% if encabezado == 'Deudor' %}
+                <th class="flex-fill text-center celda1" rowspan="2" style="width: 150px;">{{ encabezado }}</th>
+            {% elif encabezado == 'Total' %}
+                <th class="flex-fill text-center celda1" rowspan="2" style="width: 65px;">{{ encabezado }}</th>
+            {% else %}
+                <th class="flex-fill text-center celda2 titulos" colspan="2">{{ encabezado }}</th>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    <tr>
+        {% for qna in qnas_encabezado %}
+            {% if qna == '1a Qna' %}
+            <th class="flex-fill text-center celda3">{{ qna }}</th>
+            {% else %}
+            <th class="flex-fill text-center celda4">{{ qna }}</th>
+            {% endif %}
+        {% endfor %}
+    </tr>
+</thead>
+<tbody>
+    {% for contenido in deudores_matriz_contenido %}
+    <tr>
+        {% for columna in contenido %}
+            {% if forloop.first %}
+            <th class="p-1 flex-fill celda" style="border-bottom: solid 1px burlywood">{{ columna }}</th>
+            {% elif not forloop.first and not forloop.last %}
+                {% if columna.importe != 0 %}
+                    {% if columna.estatus == 0 %}
+                        <td class="p-1 flex-fill celda text-right" style="border-bottom: solid 1px burlywood;">
+                            {% if columna.cantidad == 1 %}
+                            <a class="sin-dibujo" href="{% url 'pago-detail' columna.id %}">{{ columna.importe }}</a>
+                            {% else %}
+                            <a class="sin-dibujo" href="{% url 'pagos-grupo' columna.id_deudor columna.anio columna.quincena %}">{{ columna.importe }}</a>
+                            {% endif %}
+                        </td>
+                    {% else %}
+                        <td class="p-1 flex-fill celda-pagada text-right" style="border-bottom: solid 1px burlywood;">
+                            {% if columna.cantidad == 1 %}
+                            <a class="sin-dibujo" href="{% url 'pago-detail' columna.id %}">{{ columna.importe }}</a>
+                            {% else %}
+                            <a class="sin-dibujo" href="{% url 'pagos-grupo' columna.id_deudor columna.anio columna.quincena %}">{{ columna.importe }}</a>
+                            {% endif %}
+                        </td>
+                    {% endif %}
+                {% else %}
+                    <td class="p-1 flex-fill celda text-right" style="border-bottom: solid 1px burlywood;"></td>
+                {% endif %}
+            {% elif forloop.last %}
+            <td class="p-1 flex-fill celda text-right" style="border-bottom: solid 1px burlywood;">{{ columna }}</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    {% for contenido in deudores_matriz_total_gasto %}
+    <tr>
+        {% for columna in contenido %}
+            {% if forloop.first %}
+            <th class="p-1 flex-fill totales text-center">{{ columna }}</th>
+            {% else %}
+            <td class="p-1 flex-fill text-right totales">{{ columna }}</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    {% for contenido in deudores_matriz_total_cobro %}
+    <tr>
+        {% for columna in contenido %}
+            {% if forloop.first %}
+            <th class="p-1 flex-fill cobros text-center">{{ columna }}</th>
+            {% else %}
+            <td class="p-1 flex-fill text-right cobros">{{ columna }}</td>
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    {% for contenido in deudores_matriz_saldo %}
+    <tr>
+        {% for columna in contenido %}
+            {% if forloop.first %}
+            <th class="p-1 flex-fill diferencia-mas text-center">{{ columna }}</th>
+            {% else %}
+                {% if columna >= 0 %}
+                <td class="p-1 flex-fill text-right diferencia-mas">{{ columna }}</td>
+                {% else %}
+                <td class="p-1 flex-fill text-right diferencia-menos">{{ columna }}</td>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    {% for contenido in deudores_matriz_saldo_anterior %}
+    <tr>
+        {% for columna in contenido %}
+            {% if forloop.first %}
+            <th class="p-1 flex-fill diferencia-mas text-center">{{ columna }}</th>
+            {% elif forloop.last %}
+            <td class="p-1 flex-fill text-right font-weight-bold">{{ columna }}</td>
+            {% else %}
+                {% if columna >= 0 %}
+                <td class="p-1 flex-fill text-right diferencia-mas">{{ columna }}</td>
+                {% else %}
+                <td class="p-1 flex-fill text-right diferencia-menos">{{ columna }}</td>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+    {% for contenido in deudores_matriz_saldo_actual %}
+    <tr>
+        {% for columna in contenido %}
+            {% if forloop.first %}
+            <th class="p-1 flex-fill diferencia-mas text-center">{{ columna }}</th>
+            {% elif forloop.last %}
+            <td class="p-1 flex-fill text-right font-weight-bold">{{ columna }}</td>
+            {% else %}
+                {% if columna >= 0 %}
+                <td class="p-1 flex-fill text-right diferencia-mas">{{ columna }}</td>
+                {% else %}
+                <td class="p-1 flex-fill text-right diferencia-menos">{{ columna }}</td>
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </tr>
+    {% endfor %}
+
+</tbody>

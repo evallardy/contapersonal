@@ -1,0 +1,61 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="d-flex align-items-center justify-content-center">
+    <div class="mt-2 mapa" style="padding: 10px; width: 450px">
+        <h2>{% if form.instance.pk %}Editar{% else %}Crear{% endif %} Pago</h2>
+        <form method="post"
+            action="{% if form.instance.pk %}{% url 'pago-update' pk=form.instance.pk %}{% else %}{% url 'pago-create' %}{% endif %}">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-12">
+                  {{form.deudor|as_crispy_field}}
+                </div>
+                <div class="col-6">
+                    {{form.importe_pagar|as_crispy_field}}
+                </div>
+                <div class="col-6">
+                    {{form.importe_pagado|as_crispy_field}}
+                </div>
+                <div class="col-6">
+                    {{form.anio_pagar|as_crispy_field}}
+                </div>
+                <div class="col-6">
+                    {{form.qna_pagar|as_crispy_field}}
+                </div>
+                <div class="col-12">
+                    {{form.comentario|as_crispy_field}}
+                </div>
+                <div class="col-6">
+                    {{form.fecha_pagado|as_crispy_field}}
+                </div>
+                <div class="col-6">
+                    {{form.estatus|as_crispy_field}}
+                </div>
+            </div>        
+            <div class="row col-12">
+                <div class="col-6 text-center">
+                    <button class="btn btn-success" type="submit">Guardar</button>
+                </div>
+                <div class="col-6 text-center">
+                    <a class="btn btn-info" href="{% url 'pago-list' %}">Volver a la lista</a>            
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+    {% block inicio %}
+        $('.boton_3').addClass('active');
+    {% endblock %}
+</script>
+  

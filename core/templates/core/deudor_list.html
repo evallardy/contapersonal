@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="mt-2 mapa" style="padding: 10px;">
+<h2>Lista de Deudores</h2>
+<a class="btn btn-info" href="{% url 'deudor-create' %}">Nuevo</a>
+<table class="table table-striped mt-2 text-center">
+  <thead>
+    <tr>
+      <th class="col-3">Nombre</th>
+      <th class="col-1">Corte</th>
+      <th class="col-1">Tipo de Pago</th>
+      <th class="col-1">Año Empieza</th>
+      <th class="col-1">Qna Empieza</th>
+      <th class="col-1">Año Termina</th>
+      <th class="col-1">Qna Termina</th>
+      <th class="col-1">Estatus</th>
+      <th class="col-2">Acciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for deudor in deudores %}
+      <tr>
+        <td class="text-left">{{ deudor.nombre }}</td>
+        <td>{{ deudor.corte }}</td>
+        <td>{{ deudor.get_tipo_pago_display }}</td>
+        <td>{{ deudor.get_anio_empieza_display }}</td>
+        <td>{{ deudor.get_qna_empieza_display }}</td>
+        <td>{{ deudor.get_anio_termina_display }}</td>
+        <td>{{ deudor.get_qna_termina_display }}</td>
+        <td>{{ deudor.get_estatus_display }}</td>
+        <td>
+          <a class="btn btn-info" href="{% url 'deudor-detail' pk=deudor.pk %}">Detalles</a> 
+          <a class="btn btn-info" href="{% url 'deudor-update' pk=deudor.pk %}">Editar</a> 
+          <a class="btn btn-danger" href="{% url 'deudor-delete' pk=deudor.pk %}">Eliminar</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+  {% block inicio %}
+      $('.boton_2').addClass('active');
+  {% endblock %}
+</script>
+  

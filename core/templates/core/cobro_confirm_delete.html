@@ -1,0 +1,34 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="d-flex align-items-center justify-content-center">
+    <div class="mt-2 mapa text-center" style="padding: 10px; width: 450px">
+        <h2>¿Estás seguro de que deseas eliminar este cobro?</h2>
+        <form class="col-12" method="post" action="{% url 'cobro-delete' pk=cobro.pk %}">
+            {% csrf_token %}
+            <div class="row col-12 mt-2">
+                <div class="col-6 text-center">
+                    <button class="btn btn-danger" type="submit">Sí, eliminar</button>
+                </div>
+                <div class="col-6 text-center">
+                    <a class="btn btn-info" href="{% url 'cobro-list' %}">Cancelar</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+    {% block inicio %}
+        $('.boton_4').addClass('active');
+    {% endblock %}
+</script>
+    

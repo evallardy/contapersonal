@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="mt-2 mapa" style="padding: 10px;">
+  <h2>Lista de Cobros</h2>
+  <a class="btn btn-info" href="{% url 'cobro-create' %}">Nuevo</a>
+  <table class="table table-striped mt-2 text-center">
+    <thead>
+      <tr>
+        <th class="col-1">Importe a Cobrar</th>
+        <th class="col-1">Importe Recibido</th>
+        <th class="col-1">Año Cobro</th>
+        <th class="col-1">Qna. Cobro</th>
+        <th class="col-3">Comentario</th>
+        <th class="col-1">Fecha Cobro</th>
+        <th class="col-1">Estatus</th>
+        <th class="col-3">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for cobro in cobros %}
+        <tr>
+          <td class="text-right">{{ cobro.importe_cobro }}</td>
+          <td class="text-right">{{ cobro.importe_recibido }}</td>
+          <td>{{ cobro.get_anio_cobro_display }}</td>
+          <td>{{ cobro.get_qna_cobro_display }}</td>
+          <td class="text-left">{{ cobro.comentario|default_if_none:"" }}</td>
+          <td>{{ cobro.fecha_cobro|default_if_none:"" }}</td>
+          <td>{{ cobro.get_estatus_display }}</td>
+          <td>
+            <a class="btn btn-info" href="{% url 'cobro-detail' pk=cobro.pk %}">Detalles</a>
+            <a class="btn btn-info" href="{% url 'cobro-update' pk=cobro.pk %}">Editar</a>
+            <a class="btn btn-danger" href="{% url 'cobro-delete' pk=cobro.pk %}">Eliminar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+    {% block inicio %}
+        $('.boton_4').addClass('active');
+    {% endblock %}
+</script>
+    

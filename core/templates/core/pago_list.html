@@ -1,0 +1,56 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="mt-2 mapa" style="padding: 10px;">
+  <h2>Lista de Pagos</h2>
+  <a class="btn btn-info" href="{% url 'pago-create' %}">Nuevo</a>
+  <table class="table table-striped mt-2 text-center">
+    <thead>
+      <tr>
+        <th class="col-2">Deudor</th>
+        <th class="col-1">Importe a Pagar</th>
+        <th class="col-1">Importe Pagado</th>
+        <th class="col-1">Año Pagar</th>
+        <th class="col-1">Qna. Pagar</th>
+        <th class="col-2">Comentario</th>
+        <th class="col-1">Fecha Pagado</th>
+        <th class="col-1">Estatus</th>
+        <th class="col-2">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pago in pagos %}
+        <tr>
+          <td class="text-left">{{ pago.deudor.nombre }}</td>
+          <td class="text-right">{{ pago.importe_pagar }}</td>
+          <td class="text-right">{{ pago.importe_pagado }}</td>
+          <td>{{ pago.get_anio_pagar_display }}</td>
+          <td>{{ pago.get_qna_pagar_display }}</td>
+          <td class=" text-left">{{ pago.comentario|default_if_none:"" }}</td>
+          <td>{{ pago.fecha_pagado|default_if_none:"" }}</td>
+          <td>{{ pago.get_estatus_display }}</td>
+          <td>
+            <a class="btn btn-info" href="{% url 'pago-detail' pk=pago.pk %}">Detalles</a>
+            <a class="btn btn-info" href="{% url 'pago-update' pk=pago.pk %}">Editar</a>
+            <a class="btn btn-danger" href="{% url 'pago-delete' pk=pago.pk %}">Eliminar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+    {% block inicio %}
+        $('.boton_3').addClass('active');
+    {% endblock %}
+</script>
+  

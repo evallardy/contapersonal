@@ -1,0 +1,62 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="mt-2 col-12" style="padding: 0; background-color: transparent;">    
+    <form action="" class="col-12" style="padding: 0; background-color: transparent;">        
+        {% csrf_token %}
+        <div class="row mt-2 p-2 d-flex align-items-center justify-content-center">
+            <div class="d-flex align-items-center justify-content-center">
+                <label class="p-2 mt-2" for="id_anios" style="font-weight: bold;">Año</label>
+                <select class="p-2" name="anios" id="id_anios" style="margin-left: 10px; border-radius: 8px;">
+                    <option value="" class="text-center"></option>
+                    <option value="2024" class="text-center">2024</option>
+                    <option value="2025" class="text-center">2025</option>
+                    <option value="2026" class="text-center">2026</option>
+                    <option value="2027" class="text-center">2027</option>
+                    <option value="2028" class="text-center">2028</option>
+                    <option value="2029" class="text-center">2029</option>
+                    <option value="2030" class="text-center">2030</option>
+                    <option value="2031" class="text-center">2031</option>
+                </select>
+            </div>
+        </div>
+        <div class="mt-2 p-2 d-flex align-items-center justify-content-center">
+            <table id="tabla-cuerpo" style="font-size: 11px; background-color: transparent;">
+
+                
+            </table>
+        </div>        
+    </form>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+{% block inicio %}
+    $('.boton_1').addClass('active');
+    $('#id_anios').change(function () {
+        event.preventDefault();
+        var selectedValue = $(this).val();
+        $.ajax({
+            url: '{% url "datos" %}',
+            type: 'GET',
+            data: {
+                'selected_value': selectedValue
+            },
+            success: function (data) {
+                // Actualizar solo el contenido del cuerpo de la tabla
+                $('#tabla-cuerpo').html(data.tabla_cuerpo_html);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        });
+    });
+{% endblock %}
+</script>

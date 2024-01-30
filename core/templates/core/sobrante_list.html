@@ -1,0 +1,48 @@
+{% extends "core/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% load bootstrap4 %}
+{% bootstrap_css %}
+{% block headJS %}
+{% endblock %}
+{% block contenido %}
+{% if user.is_authenticated %}
+<div class="mt-2 mapa" style="padding: 10px;">
+  <h2>Lista de Sobrantes</h2>
+  <a class="btn btn-info" href="{% url 'sobrante-create' %}">Nuevo</a>
+  <table class="table table-striped mt-2 text-center">
+    <thead>
+      <tr>
+        <th class="col-2">Importe Sobrante</th>
+        <th class="col-2">Año Sobrante</th>
+        <th class="col-2">Qna. Sobrante</th>
+        <th class="col-3">Comentario</th>
+        <th class="col-3">Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for sobrante in sobrantes %}
+        <tr>
+          <td class="text-right">{{ sobrante.importe_sobrante }}</td>
+          <td>{{ sobrante.get_anio_sobrante_display }}</td>
+          <td>{{ sobrante.get_qna_sobrante_display }}</td>
+          <td class="text-left">{{ sobrante.comentario|default_if_none:"" }}</td>
+          <td>
+            <a class="btn btn-info" href="{% url 'sobrante-detail' pk=sobrante.pk %}">Detalles</a>
+            <a class="btn btn-info" href="{% url 'sobrante-update' pk=sobrante.pk %}">Editar</a>
+            <a class="btn btn-danger" href="{% url 'sobrante-delete' pk=sobrante.pk %}">Eliminar</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endif %}
+{% endblock %}
+
+<script>
+    {% block inicio %}
+        $('.boton_5').addClass('active');
+    {% endblock %}
+</script>
+  
